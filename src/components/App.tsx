@@ -1,18 +1,18 @@
 import React, { FC, useEffect, useState } from 'react'
 
-import translate from '../translate'
+import { Translator } from '../Translator'
+
+const translator = Translator.create()
 
 export const App: FC<{}> = () => {
   const [text, setText] = useState('Olá Mundo')
 
   useEffect(() => {
-    translate(text, { to: 'en' })
+    translator
+      .translate(text, { from: 'pt', to: 'zh' } as any)
       .then((res) => {
-        console.log(res.text)
-        setText(res.text)
-        //=> I speak English
-        console.log(res.from.language.iso)
-        //=> nl
+        console.log(res)
+        setText(res)
       })
       .catch((err) => {
         console.error(err)
