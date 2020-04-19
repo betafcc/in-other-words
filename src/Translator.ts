@@ -1,6 +1,5 @@
 import YandexTranslate from 'yet-another-yandex-translate'
-import { Observable, from, of } from 'rxjs'
-import { mergeScan, tap, scan, mergeMapTo } from 'rxjs/operators'
+import { Observable } from 'rxjs'
 
 export class Translator {
   constructor(readonly yandexTranslate: YandexTranslate) {}
