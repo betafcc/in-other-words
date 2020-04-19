@@ -1,4 +1,6 @@
 import YandexTranslate from 'yet-another-yandex-translate'
+import { Observable, from, of } from 'rxjs'
+import { mergeScan, tap, scan, mergeMapTo } from 'rxjs/operators'
 
 export class Translator {
   constructor(readonly yandexTranslate: YandexTranslate) {}
@@ -9,8 +11,43 @@ export class Translator {
     return new Translator(new YandexTranslate(token))
   }
 
-  translate(text: string, option: Option): Promise<string> {
-    return this.yandexTranslate.translateStr(text, option)
+  async translate(source: string, option: Option): Promise<Result> {
+    return {
+      source,
+      result: await this.yandexTranslate.translateStr(source, option),
+      ...option,
+    }
+  }
+
+  pipe(source: string, codes: Array<Code>): Observable<Result> {
+    return new Observable<Result>((observer) => {
+      let unsubscribed = false
+
+      const run = async () => {
+        let current: Result = {
+          source,
+          result: source,
+          from: codes[0],
+          to: codes[0],
+        }
+
+        for (const code of codes.slice(1))
+          if (!unsubscribed)
+            observer.next(
+              (current = await this.translate(current.result, {
+                from: current.to,
+                to: code,
+              }))
+            )
+          else break
+
+        observer.complete()
+      }
+
+      run()
+
+      return () => (unsubscribed = true)
+    })
   }
 
   async getOptions(): Promise<Array<Option>> {
@@ -18,6 +55,11 @@ export class Translator {
       .map((dir) => dir.split('-'))
       .map(([from, to]) => ({ from, to } as Option))
   }
+}
+
+export type Result = Option & {
+  source: string
+  result: string
 }
 
 export type Option = { from: Code; to: Code }
