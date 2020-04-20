@@ -1,24 +1,35 @@
-import YandexTranslate from 'yet-another-yandex-translate'
 import { Observable } from 'rxjs'
 
 export class Translator {
-  constructor(readonly yandexTranslate: YandexTranslate) {}
+  static enpoint = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
+
+  constructor(readonly token: string) {}
 
   static create(
     token: string = 'trnsl.1.1.20200420T225100Z.86349b444c5b9364.e7816b7b18bc06578c564e8e9c9da76a5bac78e7'
   ) {
-    return new Translator(new YandexTranslate(token))
+    return new Translator(token)
   }
 
-  async translate(source: string, option: Option): Promise<Result> {
-    return {
-      source,
-      result: await this.yandexTranslate.translateStr(source, option),
-      ...option,
-    }
+  translate(source: string, option: Option): Promise<Result> {
+    return fetch(Translator.enpoint, {
+      method: 'post',
+      body: new URLSearchParams({
+        key: this.token,
+        lang: `${option.from}-${option.to}`,
+        text: source,
+        format: 'plain',
+      }),
+    })
+      .then((r) => r.json())
+      .then((r) =>
+        r.code && r.code === 200
+          ? { source, result: r.text[0], ...option }
+          : Promise.reject(r)
+      )
   }
 
-  pipe(source: string, codes: Array<Code>): Observable<Result> {
+  inOtherWords(source: string, codes: Array<Code>): Observable<Result> {
     return new Observable<Result>((observer) => {
       let unsubscribed = false
 
@@ -47,12 +58,6 @@ export class Translator {
 
       return () => (unsubscribed = true)
     })
-  }
-
-  async getOptions(): Promise<Array<Option>> {
-    return (await this.yandexTranslate.getLangs()).dirs
-      .map((dir) => dir.split('-'))
-      .map(([from, to]) => ({ from, to } as Option))
   }
 }
 
