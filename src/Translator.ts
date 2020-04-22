@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs'
-
 export class Translator {
   static enpoint = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
 
@@ -29,35 +27,19 @@ export class Translator {
       )
   }
 
-  inOtherWords(source: string, codes: Array<Code>): Observable<Result> {
-    return new Observable<Result>((observer) => {
-      let unsubscribed = false
+  async *inOtherWords(source: string, codes: Array<Code>): AsyncGenerator<Result> {
+    let current: Result = {
+      source,
+      result: source,
+      from: codes[0],
+      to: codes[0],
+    }
 
-      const run = async () => {
-        let current: Result = {
-          source,
-          result: source,
-          from: codes[0],
-          to: codes[0],
-        }
-
-        for (const code of codes.slice(1))
-          if (!unsubscribed)
-            observer.next(
-              (current = await this.translate(current.result, {
-                from: current.to,
-                to: code,
-              }))
-            )
-          else break
-
-        observer.complete()
-      }
-
-      run()
-
-      return () => (unsubscribed = true)
-    })
+    for (const code of codes.slice(1))
+      yield (current = await this.translate(current.result, {
+        from: current.to,
+        to: code,
+      }))
   }
 }
 
