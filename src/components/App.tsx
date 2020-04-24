@@ -1,28 +1,75 @@
 import React, { FC, useEffect, useState } from 'react'
-import { tap } from 'rxjs/operators'
+import { makeStyles } from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import { TextareaAutosize, TextareaAutosizeProps, Button } from '@material-ui/core'
 
-import { Translator } from '../Translator'
+const useStyles = makeStyles((theme) => ({
+  root: {
+    minWidth: 275,
+    maxWidth: 1280,
+    margin: '0 auto',
+  },
 
-const translator = Translator.create()
+  content: {
+    minHeight: '20em',
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    '&> *': {
+      width: '50%',
+    },
 
-const result$ = translator
-  .inOtherWords(
-    'The reason why we use Rx types like Observable, Observer, and Subscription is to get safety (such as the Observable Contract) and composability with Operators.',
-    ['en', 'zh', 'ru', 'en', 'pt']
+    '&> *:nth-child(2)': {
+      backgroundColor: '#f5f5f5',
+    },
+  },
+
+  textarea: {
+    width: '100%',
+    height: '100%',
+    background: 'none',
+    fontSize: '1.5rem',
+    fontFamily: theme.typography.fontFamily,
+    color: theme.palette.text.primary,
+    overflow: 'auto hidden',
+    outline: 'none',
+    border: 'none',
+    resize: 'none',
+  },
+}))
+
+export const Textarea: FC<TextareaAutosizeProps> = (props) => {
+  const classes = useStyles()
+
+  return (
+    <TextareaAutosize
+      className={classes.textarea}
+      rows={9}
+      spellCheck={false}
+      autoCapitalize='off'
+      autoComplete='off'
+      autoCorrect='off'
+      {...props}
+    />
   )
-  .pipe(tap(console.log))
+}
 
 export const App: FC<{}> = () => {
-  const [text, setText] = useState('Olá Mundo')
+  const classes = useStyles()
+  const [source, setSource] = useState('')
 
-  useEffect(() => {
-    const subs = result$.subscribe({
-      next: (r) => setText(r.result),
-      complete: () => setText((text) => text + '.'),
-    })
-
-    return () => subs.unsubscribe()
-  }, [])
-
-  return <h1>{text}</h1>
+  return (
+    <div className={classes.root}>
+      <h1 style={{ backgroundColor: 'purple', margin: 0 }}>Hello</h1>
+      <Card className={classes.content} elevation={3}>
+        <CardContent>
+          <Textarea value={source} onChange={(e) => setSource(e.target.value)} />
+        </CardContent>
+        <CardContent>
+          <Textarea disabled value={source} />
+        </CardContent>
+      </Card>
+      <Button onClick={(_) => console.log(source)}>Hello</Button>
+    </div>
+  )
 }
