@@ -50,7 +50,11 @@ export type Result = Option & {
 
 export type Option = { from: Code; to: Code }
 
-export type Code = keyof typeof codes
+export type Language = { [K in Code]: { code: K; name: Codes[K] } }[Code]
+
+export type Codes = typeof codes
+
+export type Code = keyof Codes
 
 export const codes = {
   az: 'Azerbaijan',
@@ -147,3 +151,7 @@ export const codes = {
   ja: 'Japanese',
   ms: 'Malay',
 } as const
+
+export const languages: Array<Language> = Object.entries(codes)
+  .map(([k, v]) => ({ code: k, name: v } as Language))
+  .sort((a, b) => a.name.localeCompare(b.name))
