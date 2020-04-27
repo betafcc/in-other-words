@@ -32,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  translate: {
+    display: 'inline-flex',
+    padding: '4px',
+  },
+
   languages: {
     flexGrow: 1,
     display: 'flex',
@@ -118,13 +123,15 @@ export const InOtherWords: FC<State & Dispatchers> = ({
   return (
     <div className={classes.root}>
       <div className={classes.bar}>
-        <Button
-          disabled={status === 'running'}
-          variant='outlined'
-          onClick={(_) => translate(languages)}
-        >
-          <TranslateIcon />
-        </Button>
+        <div className={classes.translate}>
+          <Button
+            disabled={status === 'running'}
+            variant='outlined'
+            onClick={(_) => translate(languages)}
+          >
+            <TranslateIcon />
+          </Button>
+        </div>
         <Divider orientation='vertical' flexItem />
         <Languages
           languages={languages}
