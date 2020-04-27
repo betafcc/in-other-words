@@ -92,13 +92,12 @@ export type Dispatchers = {
 }
 
 export const InOtherWords: FC<State & Dispatchers> = ({
+  status,
   languages,
   focused,
-  editing,
   searchValue,
   inputValue,
   outputValue,
-  running,
   done,
 
   translate,
@@ -115,7 +114,7 @@ export const InOtherWords: FC<State & Dispatchers> = ({
     <div className={classes.root}>
       <div className={classes.bar}>
         <Button
-          disabled={running}
+          disabled={status === 'running'}
           variant='outlined'
           onClick={(_) => translate(languages)}
         >
@@ -124,8 +123,7 @@ export const InOtherWords: FC<State & Dispatchers> = ({
         <Divider orientation='vertical' flexItem />
         <Languages
           languages={languages}
-          running={running}
-          editing={editing}
+          status={status}
           done={done}
           focused={focused}
           focus={focus}
@@ -140,7 +138,7 @@ export const InOtherWords: FC<State & Dispatchers> = ({
             <Textarea disabled value={outputValue} />
           </CardContent>
         </Card>
-        {editing ? (
+        {status === 'editing' ? (
           <div className={classes.languageSearch}>
             <LanguageSearch
               searchValue={searchValue}
@@ -160,9 +158,8 @@ export const InOtherWords: FC<State & Dispatchers> = ({
 }
 
 export const Languages: FC<
-  Pick<State, 'languages' | 'running' | 'editing' | 'done' | 'focused'> &
-    Pick<Dispatchers, 'focus'>
-> = ({ languages, running, editing, done, focused, focus }) => {
+  Pick<State, 'status' | 'languages' | 'done' | 'focused'> & Pick<Dispatchers, 'focus'>
+> = ({ status, languages, done, focused, focus }) => {
   const classes = useStyles()
 
   return (
@@ -170,12 +167,12 @@ export const Languages: FC<
       {languages.map((code, i) => (
         <LanguageButton
           key={`${code}-${i}`}
-          status={languageButtonState({ running, done, focused, editing }, i)}
+          status={languageButtonState({ status, done, focused }, i)}
           code={code}
           onClick={() => focus(i)}
         />
       ))}
-      {languages.length >= 10 ? null : (
+      {status === 'running' || languages.length >= 10 ? null : (
         <LanguageAddButton onClick={() => focus(languages.length)} />
       )}
     </div>
@@ -183,15 +180,15 @@ export const Languages: FC<
 }
 
 const languageButtonState: (
-  state: Pick<State, 'running' | 'editing' | 'done' | 'focused'>,
+  state: Pick<State, 'status' | 'done' | 'focused'>,
   i: number
 ) => 'default' | 'focused' | 'done' | 'loading' | 'waiting' = (state, i) => {
-  if (state.running) {
+  if (state.status === 'running') {
     if (i < state.done) return 'done'
     else if (i === state.done) return 'loading'
     else return 'waiting'
   } else {
-    if (state.editing && i === state.focused) return 'focused'
+    if (state.status === 'editing' && i === state.focused) return 'focused'
     else return 'default'
   }
 }
