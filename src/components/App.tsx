@@ -16,7 +16,7 @@ const setQuery = (state: State) => {
       Object.fromEntries(
         [
           ['i', state.inputValue],
-          ['o', state.outputValue],
+          ['o', state.status === 'running' ? '' : state.outputValue],
           ['l', state.languages],
         ].filter((e) => !!e[1])
       ),
