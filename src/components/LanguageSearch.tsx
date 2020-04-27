@@ -9,24 +9,37 @@ import { InputAdornment, IconButton } from '@material-ui/core'
 import { languages } from '../Translator'
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    borderRadius: 0,
+    boxShadow: 'none',
+  },
 
   input: {
     fontSize: theme.typography.h6.fontSize,
     width: '100%',
-    padding: '1em',
-    boxShadow: '0 2px 4px -1px rgba(0,0,0,0.2)',
-  },
-
-  default: {},
-  selected: {
-    background: 'blue',
+    padding: '0.4em',
+    // borderBottom: '1px solid black',
+    borderRadius: 0,
+    boxShadow: '0 2px 4px -1px rgba(0,0,0,0.4)',
   },
 
   options: {
-    margin: 0,
+    margin: '4px 0 0 0',
     padding: 0,
     listStyle: 'none',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    boxShadow: '0 2px 4px -1px rgba(0,0,0,0.2)',
+  },
+
+  option: {
+    fontSize: theme.typography.body1.fontSize,
+    display: 'flex',
+    padding: '0.5em',
+  },
+
+  selected: {
+    background: 'blue',
   },
 }))
 
@@ -75,9 +88,16 @@ export const LanguageSearch: FC<LanguageSearchProps> = ({
           .map((e) => (
             <li
               key={e.code}
-              className={e.code === selected ? classes.selected : classes.default}
+              className={
+                classes.option + ' ' + (e.code === selected ? classes.selected : '')
+              }
             >
-              <ButtonBase onClick={(_) => onSelect(e.code)}>{e.name}</ButtonBase>
+              <ButtonBase
+                style={{ fontSize: 'inherit' }}
+                onClick={(_) => onSelect(e.code)}
+              >
+                {e.name}
+              </ButtonBase>
             </li>
           ))}
       </ul>

@@ -5,7 +5,7 @@ import { initial, reducer } from '../program'
 import { Translator } from '../Translator'
 
 export const App: FC = () => {
-  const [state, dispatch] = useReducer(reducer, initial)
+  const [state, dispatch] = useReducer(reducer, { ...initial, status: 'editing' })
 
   return (
     <InOtherWords
