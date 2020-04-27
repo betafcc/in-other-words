@@ -6,7 +6,6 @@ import Divider from '@material-ui/core/Divider'
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from '@material-ui/core/TextareaAutosize'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import TranslateIcon from '@material-ui/icons/Translate'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -164,6 +163,19 @@ export const InOtherWords: FC<State & Dispatchers> = ({
           </div>
         ) : null}
       </div>
+      <a
+        style={{
+          display: 'block',
+          textAlign: 'right',
+          marginTop: '0.5em',
+          marginRight: '0.5em',
+          textDecoration: 'none',
+          color: '#333',
+        }}
+        href='http://translate.yandex.com'
+      >
+        Powered by Yandex
+      </a>
     </div>
   )
 }

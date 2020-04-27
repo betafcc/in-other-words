@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import InputBase, { InputBaseProps } from '@material-ui/core/InputBase'
-import ButtonBase, { ButtonBaseProps } from '@material-ui/core/ButtonBase'
+import InputBase from '@material-ui/core/InputBase'
+import ButtonBase from '@material-ui/core/ButtonBase'
 import DeleteIcon from '@material-ui/icons/DeleteOutline'
 import CloseIcon from '@material-ui/icons/Close'
 import Paper from '@material-ui/core/Paper'
@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.typography.h6.fontSize,
     width: '100%',
     padding: '0.4em',
-    // borderBottom: '1px solid black',
     borderRadius: 0,
     boxShadow: '0 2px 4px -1px rgba(0,0,0,0.4)',
   },
