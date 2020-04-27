@@ -163,19 +163,25 @@ export const InOtherWords: FC<State & Dispatchers> = ({
           </div>
         ) : null}
       </div>
-      <a
+      <div
         style={{
           display: 'block',
+          width: '100%',
           textAlign: 'right',
           marginTop: '0.5em',
-          marginRight: '0.5em',
-          textDecoration: 'none',
-          color: '#333',
         }}
-        href='http://translate.yandex.com'
       >
-        Powered by Yandex
-      </a>
+        <a
+          style={{
+            textDecoration: 'none',
+            color: '#333',
+            marginRight: '0.5em',
+          }}
+          href='http://translate.yandex.com'
+        >
+          Powered by Yandex
+        </a>
+      </div>
     </div>
   )
 }
