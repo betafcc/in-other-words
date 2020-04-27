@@ -1,11 +1,50 @@
-import React, { FC, useReducer } from 'react'
+import React, { FC, useReducer, useEffect } from 'react'
+import queryString from 'query-string'
 
 import { InOtherWords } from './InOtherWords'
-import { initial, reducer } from '../program'
+import { initial, reducer, State } from '../program'
 import { Translator } from '../Translator'
 
+const setQuery = (state: State) => {
+  const newurl =
+    window.location.protocol +
+    '//' +
+    window.location.host +
+    window.location.pathname +
+    '?' +
+    queryString.stringify(
+      Object.fromEntries(
+        [
+          ['i', state.inputValue],
+          ['o', state.outputValue],
+          ['l', state.languages],
+        ].filter((e) => !!e[1])
+      ),
+      { arrayFormat: 'comma' }
+    )
+
+  window.history.pushState({ path: newurl }, '', newurl)
+}
+
+const getQuery = (): Partial<State> => {
+  const q = queryString.parse(window.location.search, { arrayFormat: 'comma' }) as any
+
+  return {
+    inputValue: q.i || '',
+    outputValue: q.o || '',
+    languages: q.l === undefined ? [] : Array.isArray(q.l) ? q.l : [q.l],
+  }
+}
+
+const queryInitial = getQuery()
+
 export const App: FC = () => {
-  const [state, dispatch] = useReducer(reducer, { ...initial, status: 'editing' })
+  const [state, dispatch] = useReducer(reducer, {
+    ...initial,
+    ...queryInitial,
+  })
+
+  useEffect(() => setQuery(state))
 
   return (
     <InOtherWords
