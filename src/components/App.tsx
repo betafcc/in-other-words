@@ -2,6 +2,7 @@ import React, { FC, useReducer } from 'react'
 
 import { InOtherWords } from './InOtherWords'
 import { initial, reducer } from '../program'
+import { Translator } from '../Translator'
 
 export const App: FC = () => {
   const [state, dispatch] = useReducer(reducer, initial)
@@ -9,9 +10,19 @@ export const App: FC = () => {
   return (
     <InOtherWords
       {...state}
-      translate={(languages) => {
-        console.log(languages)
-        dispatch({ type: 'start' })
+      translate={async (languages) => {
+        if (state.languages.length >= 2) {
+          dispatch({ type: 'start' })
+
+          for await (const el of Translator.create().inOtherWords(
+            state.inputValue,
+            state.languages as any
+          )) {
+            dispatch({ type: 'receive', payload: el.result })
+          }
+
+          dispatch({ type: 'stop' })
+        }
       }}
       focus={(index) => dispatch({ type: 'focus', payload: index })}
       setInput={(value) => dispatch({ type: 'setInput', payload: value })}

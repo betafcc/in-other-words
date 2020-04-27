@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     '&> *': {
       margin: '0 4px',
     },
-    // backgroundColor: '#ddd',
   },
 
   languages: {
@@ -79,6 +78,10 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
     border: 'none',
     resize: 'none',
+  },
+
+  outputRunning: {
+    color: theme.palette.text.disabled,
   },
 }))
 
@@ -138,7 +141,11 @@ export const InOtherWords: FC<State & Dispatchers> = ({
             <Textarea value={inputValue} onChange={(e) => setInput(e.target.value)} />
           </CardContent>
           <CardContent>
-            <Textarea disabled value={outputValue} />
+            <Textarea
+              disabled
+              className={status === 'running' ? classes.outputRunning : ''}
+              value={outputValue}
+            />
           </CardContent>
         </Card>
         {status === 'editing' ? (
@@ -197,12 +204,12 @@ const languageButtonState: (
   }
 }
 
-export const Textarea: FC<TextareaAutosizeProps> = (props) => {
+export const Textarea: FC<TextareaAutosizeProps> = ({ className, ...props }) => {
   const classes = useStyles()
 
   return (
     <TextareaAutosize
-      className={classes.textarea}
+      className={classes.textarea + ' ' + className}
       rows={9}
       spellCheck={false}
       autoCapitalize='off'
