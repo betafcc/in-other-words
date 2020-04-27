@@ -32,6 +32,7 @@ export type Action =
   | Msg<'editLanguage', string>
   | Msg<'setInput', string>
   | Msg<'setSearch', string>
+  | Msg<'closeSearch'>
   | Msg<'focus', number>
   | Msg<'start'>
   | Msg<'stop'>
@@ -63,6 +64,8 @@ export const reducer = asReducer<State, Action>((s, a) => {
       return { inputValue: a.payload, outputValue: '' }
     case 'setSearch':
       return { searchValue: a.payload }
+    case 'closeSearch':
+      return { status: 'default' }
     case 'focus':
       return { status: 'editing', focused: a.payload }
     case 'start':

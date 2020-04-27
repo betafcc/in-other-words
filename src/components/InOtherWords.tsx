@@ -6,6 +6,7 @@ import Divider from '@material-ui/core/Divider'
 import TextareaAutosize, {
   TextareaAutosizeProps,
 } from '@material-ui/core/TextareaAutosize'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import TranslateIcon from '@material-ui/icons/Translate'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -89,6 +90,7 @@ export type Dispatchers = {
   addLanguage: (code: string) => void
   removeLanguage: () => void
   editLanguage: (code: string) => void
+  closeSearch: () => void
 }
 
 export const InOtherWords: FC<State & Dispatchers> = ({
@@ -107,6 +109,7 @@ export const InOtherWords: FC<State & Dispatchers> = ({
   addLanguage,
   removeLanguage,
   editLanguage,
+  closeSearch,
 }) => {
   const classes = useStyles()
 
@@ -149,6 +152,7 @@ export const InOtherWords: FC<State & Dispatchers> = ({
                 else editLanguage(code)
               }}
               onRemove={removeLanguage}
+              onClose={closeSearch}
             />
           </div>
         ) : null}

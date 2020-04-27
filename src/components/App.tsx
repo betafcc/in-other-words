@@ -19,6 +19,7 @@ export const App: FC = () => {
       addLanguage={(code) => dispatch({ type: 'addLanguage', payload: code })}
       editLanguage={(code) => dispatch({ type: 'editLanguage', payload: code })}
       removeLanguage={() => dispatch({ type: 'removeLanguage' })}
+      closeSearch={() => dispatch({ type: 'closeSearch' })}
     />
   )
 }
