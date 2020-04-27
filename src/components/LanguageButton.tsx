@@ -8,16 +8,13 @@ const useStyles = makeStyles((theme) => ({
   default: {},
   focused: {
     borderColor: '#000',
-    borderWidth: '2px',
   },
   done: {
     borderColor: theme.palette.success.light,
-    borderWidth: '2px',
     pointerEvents: 'none',
   },
   loading: {
     borderColor: theme.palette.warning.light,
-    borderWidth: '2px',
     pointerEvents: 'none',
   },
   waiting: {

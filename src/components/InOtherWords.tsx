@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
   languageSearch: {
     position: 'absolute',
+    width: '100%',
     top: 0,
   },
 
@@ -124,6 +125,7 @@ export const InOtherWords: FC<State & Dispatchers> = ({
         <Languages
           languages={languages}
           running={running}
+          editing={editing}
           done={done}
           focused={focused}
           focus={focus}
@@ -158,8 +160,9 @@ export const InOtherWords: FC<State & Dispatchers> = ({
 }
 
 export const Languages: FC<
-  Pick<State, 'languages' | 'running' | 'done' | 'focused'> & Pick<Dispatchers, 'focus'>
-> = ({ languages, running, done, focused, focus }) => {
+  Pick<State, 'languages' | 'running' | 'editing' | 'done' | 'focused'> &
+    Pick<Dispatchers, 'focus'>
+> = ({ languages, running, editing, done, focused, focus }) => {
   const classes = useStyles()
 
   return (
@@ -167,7 +170,7 @@ export const Languages: FC<
       {languages.map((code, i) => (
         <LanguageButton
           key={`${code}-${i}`}
-          status={languageButtonState({ running, done, focused }, i)}
+          status={languageButtonState({ running, done, focused, editing }, i)}
           code={code}
           onClick={() => focus(i)}
         />
@@ -180,7 +183,7 @@ export const Languages: FC<
 }
 
 const languageButtonState: (
-  state: Pick<State, 'running' | 'done' | 'focused'>,
+  state: Pick<State, 'running' | 'editing' | 'done' | 'focused'>,
   i: number
 ) => 'default' | 'focused' | 'done' | 'loading' | 'waiting' = (state, i) => {
   if (state.running) {
@@ -188,7 +191,7 @@ const languageButtonState: (
     else if (i === state.done) return 'loading'
     else return 'waiting'
   } else {
-    if (i === state.focused) return 'focused'
+    if (state.editing && i === state.focused) return 'focused'
     else return 'default'
   }
 }

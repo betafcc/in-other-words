@@ -40,10 +40,11 @@ export type Action =
 export const reducer = asReducer<State, Action>((s, a) => {
   switch (a.type) {
     case 'addLanguage':
-      return { editing: false, languages: [...s.languages, a.payload] }
+      return { editing: false, searchValue: '', languages: [...s.languages, a.payload] }
     case 'removeLanguage':
       return {
         editing: false,
+        searchValue: '',
         languages: s.languages
           .slice(0, s.focused)
           .concat(s.languages.slice(s.focused + 1)),
@@ -51,6 +52,7 @@ export const reducer = asReducer<State, Action>((s, a) => {
     case 'editLanguage':
       return {
         editing: false,
+        searchValue: '',
         languages: s.languages.map((e, i) => (s.focused !== i ? e : a.payload)),
       }
     case 'setInput':
