@@ -4,13 +4,7 @@ import InputBase, { InputBaseProps } from '@material-ui/core/InputBase'
 import ButtonBase, { ButtonBaseProps } from '@material-ui/core/ButtonBase'
 import DeleteIcon from '@material-ui/icons/DeleteOutline'
 import Paper from '@material-ui/core/Paper'
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  InputAdornment,
-  IconButton,
-} from '@material-ui/core'
+import { InputAdornment, IconButton } from '@material-ui/core'
 
 import { languages } from '../Translator'
 

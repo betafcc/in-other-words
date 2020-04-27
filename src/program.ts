@@ -2,7 +2,7 @@ import { Msg, asReducer } from './util'
 
 export type State = {
   languages: Array<string>
-  focus: number
+  focused: number
   editing: boolean
   searchValue: string
 
@@ -15,7 +15,7 @@ export type State = {
 
 export const initial: State = {
   languages: [],
-  focus: 0,
+  focused: 0,
   editing: false,
   searchValue: '',
 
@@ -29,9 +29,10 @@ export const initial: State = {
 export type Action =
   | Msg<'addLanguage', string>
   | Msg<'removeLanguage'>
+  | Msg<'editLanguage', string>
   | Msg<'setInput', string>
+  | Msg<'setSearch', string>
   | Msg<'focus', number>
-  | Msg<'edit'>
   | Msg<'start'>
   | Msg<'stop'>
   | Msg<'receive', string>
@@ -39,18 +40,25 @@ export type Action =
 export const reducer = asReducer<State, Action>((s, a) => {
   switch (a.type) {
     case 'addLanguage':
-      return { languages: [...s.languages, a.payload] }
+      return { editing: false, languages: [...s.languages, a.payload] }
     case 'removeLanguage':
       return {
         editing: false,
-        languages: s.languages.slice(0, s.focus).concat(s.languages.slice(s.focus + 1)),
+        languages: s.languages
+          .slice(0, s.focused)
+          .concat(s.languages.slice(s.focused + 1)),
+      }
+    case 'editLanguage':
+      return {
+        editing: false,
+        languages: s.languages.map((e, i) => (s.focused !== i ? e : a.payload)),
       }
     case 'setInput':
       return { inputValue: a.payload, outputValue: '' }
+    case 'setSearch':
+      return { searchValue: a.payload }
     case 'focus':
-      return { focus: a.payload }
-    case 'edit':
-      return { editing: true }
+      return { focused: a.payload, editing: true }
     case 'start':
       return { done: 0, running: true }
     case 'stop':

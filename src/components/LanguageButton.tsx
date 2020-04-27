@@ -1,9 +1,15 @@
 import React, { FC } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Button, { ButtonProps } from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button'
+
+import { codes } from '../Translator'
 
 const useStyles = makeStyles((theme) => ({
   default: {},
+  focused: {
+    borderColor: '#000',
+    borderWidth: '2px',
+  },
   done: {
     borderColor: theme.palette.success.light,
     borderWidth: '2px',
@@ -21,13 +27,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export type LanguageButtonProps = {
-  language: string
-  status?: 'default' | 'done' | 'loading' | 'waiting'
-  onClick?: ButtonProps['onClick']
+  code: string
+  status: 'default' | 'focused' | 'done' | 'loading' | 'waiting'
+  onClick: () => void
 }
 
 export const LanguageButton: FC<LanguageButtonProps> = ({
-  language,
+  code,
   status = 'default',
   onClick,
 }) => {
@@ -35,7 +41,7 @@ export const LanguageButton: FC<LanguageButtonProps> = ({
 
   return (
     <Button variant='outlined' className={classes[status]} onClick={onClick}>
-      {language}
+      {codes[code]}
     </Button>
   )
 }
@@ -43,7 +49,7 @@ export const LanguageButton: FC<LanguageButtonProps> = ({
 export const Example: FC = () => (
   <>
     {(['default', 'done', 'loading', 'waiting'] as const).map((s) => (
-      <LanguageButton key={s} language={s} status={s} onClick={(_) => console.log(s)} />
+      <LanguageButton key={s} code={s} status={s} onClick={() => console.log(s)} />
     ))}
   </>
 )
