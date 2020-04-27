@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   selected: {
-    background: 'blue',
+    background: theme.palette.primary.light,
+    color: theme.palette.getContrastText(theme.palette.primary.light),
   },
 }))
 
