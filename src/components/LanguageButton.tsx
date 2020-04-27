@@ -40,7 +40,7 @@ export const LanguageButton: FC<LanguageButtonProps> = ({
   )
 }
 
-export const Example: FC = ({}) => (
+export const Example: FC = () => (
   <>
     {(['default', 'done', 'loading', 'waiting'] as const).map((s) => (
       <LanguageButton key={s} language={s} status={s} onClick={(_) => console.log(s)} />
