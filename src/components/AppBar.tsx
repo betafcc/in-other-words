@@ -3,20 +3,17 @@ import MuiAppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import MenuIcon from '@material-ui/icons/Menu'
+import GithubIcon from '@material-ui/icons/GitHub'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: 'white',
     borderBottom: '1px solid rgba(0,0,0,0.12)',
-    color: 'black',
+    color: '#5f6368',
   },
 
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
+  menuButton: {},
 
   title: {
     flexGrow: 1,
@@ -29,18 +26,24 @@ export const AppBar: FC = () => {
   return (
     <MuiAppBar position='static' elevation={0} className={classes.appBar}>
       <Toolbar>
+        <Typography variant='h6' className={classes.title}>
+          In Other
+          <span style={{ color: '#4285f4' }}> W</span>
+          <span style={{ color: '#ea4335' }}>o</span>
+          <span style={{ color: '#fbbc05' }}>r</span>
+          <span style={{ color: '#34a853' }}>d</span>
+          <span style={{ color: '#4285f4' }}>s</span>
+        </Typography>
         <IconButton
-          edge='start'
+          href='https://github.com/betafcc/in-other-words'
+          // target='_blank'
+          // rel='noopener noreferrer'
+          edge='end'
           className={classes.menuButton}
           color='inherit'
-          aria-label='menu'
         >
-          <MenuIcon />
+          <GithubIcon />
         </IconButton>
-        <Typography variant='h6' className={classes.title}>
-          News
-        </Typography>
-        <Button color='inherit'>Login</Button>
       </Toolbar>
     </MuiAppBar>
   )
