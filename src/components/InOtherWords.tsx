@@ -63,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   content: {
+    border: '1px solid rgba(0,0,0,0.12)',
+    boxShadow: '0 2px 2px rgba(0,0,0,0.22)',
     minHeight: '15em',
     display: 'flex',
     flexFlow: 'row nowrap',
@@ -92,6 +94,10 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
     border: 'none',
     resize: 'none',
+  },
+
+  inputCard: {
+    borderRight: '1px solid rgba(0,0,0,0.12)',
   },
 
   outputRunning: {
@@ -146,8 +152,8 @@ export const InOtherWords: FC<State & Dispatchers> = ({
           />
         </div>
         <div className={classes.contentContainer}>
-          <Card className={classes.content} square elevation={1}>
-            <CardContent>
+          <Card className={classes.content} square elevation={0}>
+            <CardContent className={classes.inputCard}>
               <Textarea value={inputValue} onChange={(e) => setInput(e.target.value)} />
             </CardContent>
             <CardContent>

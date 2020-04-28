@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: 'white',
-    borderBottom: '1px solid black',
+    borderBottom: '1px solid rgba(0,0,0,0.12)',
     color: 'black',
   },
 
