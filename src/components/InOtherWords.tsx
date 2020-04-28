@@ -17,6 +17,11 @@ import { AppBar } from './AppBar'
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    height: '100%',
+    backgroundColor: theme.palette.background.default,
+  },
+
+  main: {
     minWidth: 275,
     maxWidth: 1280,
     margin: '0 auto',
@@ -30,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
 
     '&> *': {
       margin: '0 4px',
+    },
+
+    '& button': {
+      backgroundColor: theme.palette.background.paper,
     },
   },
 
@@ -49,12 +58,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  main: {
+  contentContainer: {
     position: 'relative',
   },
 
   content: {
-    minHeight: '20em',
+    minHeight: '15em',
     display: 'flex',
     flexFlow: 'row nowrap',
     '&> *': {
@@ -122,9 +131,9 @@ export const InOtherWords: FC<State & Dispatchers> = ({
   const classes = useStyles()
 
   return (
-    <>
+    <div className={classes.root}>
       <AppBar />
-      <div className={classes.root}>
+      <div className={classes.main}>
         <div className={classes.bar}>
           <TranslateButton status={status} languages={languages} translate={translate} />
           <Divider orientation='vertical' flexItem />
@@ -136,8 +145,8 @@ export const InOtherWords: FC<State & Dispatchers> = ({
             focus={focus}
           />
         </div>
-        <div className={classes.main}>
-          <Card className={classes.content} elevation={3}>
+        <div className={classes.contentContainer}>
+          <Card className={classes.content} square elevation={1}>
             <CardContent>
               <Textarea value={inputValue} onChange={(e) => setInput(e.target.value)} />
             </CardContent>
@@ -167,7 +176,7 @@ export const InOtherWords: FC<State & Dispatchers> = ({
         </div>
         <PoweredByYandex />
       </div>
-    </>
+    </div>
   )
 }
 
@@ -231,7 +240,7 @@ export const Textarea: FC<TextareaAutosizeProps> = ({ className, ...props }) => 
   return (
     <TextareaAutosize
       className={classes.textarea + ' ' + className}
-      rows={9}
+      rows={6}
       spellCheck={false}
       autoCapitalize='off'
       autoComplete='off'
