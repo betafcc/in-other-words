@@ -13,6 +13,7 @@ import { State } from '../program'
 import { LanguageButton } from './LanguageButton'
 import { LanguageAddButton } from './LanguageAddButton'
 import { LanguageSearch } from './LanguageSearch'
+import { AppBar } from './AppBar'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  translate: {
+  translateButton: {
     display: 'inline-flex',
     padding: '4px',
   },
@@ -121,74 +122,69 @@ export const InOtherWords: FC<State & Dispatchers> = ({
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
-      <div className={classes.bar}>
-        <div className={classes.translate}>
-          <Button
-            disabled={status === 'running'}
-            variant='outlined'
-            onClick={(_) => translate(languages)}
-          >
-            <TranslateIcon />
-          </Button>
+    <>
+      <AppBar />
+      <div className={classes.root}>
+        <div className={classes.bar}>
+          <TranslateButton status={status} languages={languages} translate={translate} />
+          <Divider orientation='vertical' flexItem />
+          <Languages
+            languages={languages}
+            status={status}
+            done={done}
+            focused={focused}
+            focus={focus}
+          />
         </div>
-        <Divider orientation='vertical' flexItem />
-        <Languages
-          languages={languages}
-          status={status}
-          done={done}
-          focused={focused}
-          focus={focus}
-        />
+        <div className={classes.main}>
+          <Card className={classes.content} elevation={3}>
+            <CardContent>
+              <Textarea value={inputValue} onChange={(e) => setInput(e.target.value)} />
+            </CardContent>
+            <CardContent>
+              <Textarea
+                disabled
+                className={status === 'running' ? classes.outputRunning : ''}
+                value={outputValue}
+              />
+            </CardContent>
+          </Card>
+          {status === 'editing' ? (
+            <div className={classes.languageSearch}>
+              <LanguageSearch
+                searchValue={searchValue}
+                selected={languages[focused]}
+                onSearchValueChange={(value) => setSearch(value)}
+                onSelect={(code) => {
+                  if (focused >= languages.length) addLanguage(code)
+                  else editLanguage(code)
+                }}
+                onRemove={removeLanguage}
+                onClose={closeSearch}
+              />
+            </div>
+          ) : null}
+        </div>
+        <PoweredByYandex />
       </div>
-      <div className={classes.main}>
-        <Card className={classes.content} elevation={3}>
-          <CardContent>
-            <Textarea value={inputValue} onChange={(e) => setInput(e.target.value)} />
-          </CardContent>
-          <CardContent>
-            <Textarea
-              disabled
-              className={status === 'running' ? classes.outputRunning : ''}
-              value={outputValue}
-            />
-          </CardContent>
-        </Card>
-        {status === 'editing' ? (
-          <div className={classes.languageSearch}>
-            <LanguageSearch
-              searchValue={searchValue}
-              selected={languages[focused]}
-              onSearchValueChange={(value) => setSearch(value)}
-              onSelect={(code) => {
-                if (focused >= languages.length) addLanguage(code)
-                else editLanguage(code)
-              }}
-              onRemove={removeLanguage}
-              onClose={closeSearch}
-            />
-          </div>
-        ) : null}
-      </div>
-      <div
-        style={{
-          display: 'block',
-          width: '100%',
-          textAlign: 'right',
-          marginTop: '0.5em',
-        }}
+    </>
+  )
+}
+
+export const TranslateButton: FC<
+  Pick<State, 'status' | 'languages'> & Pick<Dispatchers, 'translate'>
+> = ({ status, languages, translate }) => {
+  const classes = useStyles()
+
+  return (
+    <div className={classes.translateButton}>
+      <Button
+        disabled={status === 'running'}
+        variant='outlined'
+        onClick={(_) => translate(languages)}
       >
-        <a
-          style={{
-            textDecoration: 'none',
-            color: '#333',
-            marginRight: '0.5em',
-          }}
-          href='http://translate.yandex.com'
-        >
-          Powered by Yandex
-        </a>
-      </div>
+        <TranslateIcon />
+      </Button>
     </div>
   )
 }
@@ -244,3 +240,25 @@ export const Textarea: FC<TextareaAutosizeProps> = ({ className, ...props }) => 
     />
   )
 }
+
+export const PoweredByYandex: FC = () => (
+  <div
+    style={{
+      display: 'block',
+      width: '100%',
+      textAlign: 'right',
+      marginTop: '0.5em',
+    }}
+  >
+    <a
+      style={{
+        textDecoration: 'none',
+        color: '#333',
+        marginRight: '0.5em',
+      }}
+      href='http://translate.yandex.com'
+    >
+      Powered by Yandex
+    </a>
+  </div>
+)
