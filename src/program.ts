@@ -65,7 +65,7 @@ export const reducer = asReducer<State, Action>((s, a) => {
     case 'setSearch':
       return { searchValue: a.payload }
     case 'closeSearch':
-      return { status: 'default' }
+      return { status: 'default', searchValue: '' }
     case 'focus':
       return { status: 'editing', focused: a.payload }
     case 'start':
