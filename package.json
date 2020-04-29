@@ -1,7 +1,7 @@
 {
   "name": "in-other-words",
   "version": "0.1.0",
-  "homepage": "http://betafcc.github.io/in-other-words/",
+  "homepage": "https://betafcc.github.io/in-other-words/",
   "private": false,
   "dependencies": {
     "@material-ui/core": "^4.9.11",
