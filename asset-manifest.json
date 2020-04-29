@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/in-other-words/static/css/main.6925051a.chunk.css",
-    "main.js": "/in-other-words/static/js/main.4c265e6c.chunk.js",
-    "main.js.map": "/in-other-words/static/js/main.4c265e6c.chunk.js.map",
+    "main.js": "/in-other-words/static/js/main.3e890bb9.chunk.js",
+    "main.js.map": "/in-other-words/static/js/main.3e890bb9.chunk.js.map",
     "runtime-main.js": "/in-other-words/static/js/runtime-main.d436f349.js",
     "runtime-main.js.map": "/in-other-words/static/js/runtime-main.d436f349.js.map",
     "static/js/2.ee591022.chunk.js": "/in-other-words/static/js/2.ee591022.chunk.js",
     "static/js/2.ee591022.chunk.js.map": "/in-other-words/static/js/2.ee591022.chunk.js.map",
     "index.html": "/in-other-words/index.html",
-    "precache-manifest.e0933a4cd16e51be7d82c2ef878b5d77.js": "/in-other-words/precache-manifest.e0933a4cd16e51be7d82c2ef878b5d77.js",
+    "precache-manifest.4aa967c3d61674bb9937be852fc144c4.js": "/in-other-words/precache-manifest.4aa967c3d61674bb9937be852fc144c4.js",
     "service-worker.js": "/in-other-words/service-worker.js",
     "static/css/main.6925051a.chunk.css.map": "/in-other-words/static/css/main.6925051a.chunk.css.map",
     "static/js/2.ee591022.chunk.js.LICENSE.txt": "/in-other-words/static/js/2.ee591022.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.d436f349.js",
     "static/js/2.ee591022.chunk.js",
     "static/css/main.6925051a.chunk.css",
-    "static/js/main.4c265e6c.chunk.js"
+    "static/js/main.3e890bb9.chunk.js"
   ]
 }
