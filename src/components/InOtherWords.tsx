@@ -36,15 +36,27 @@ const useStyles = makeStyles((theme) => ({
     '&> *': {
       margin: '0 4px',
     },
-
-    '& button': {
-      backgroundColor: theme.palette.background.paper,
-    },
   },
 
   translateButton: {
     display: 'inline-flex',
     padding: '4px',
+
+    '& button': {
+      backgroundColor: '#454545',
+      color: '#ffffff',
+      border: '1px solid #454545',
+
+      '&:hover': {
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        borderColor: 'rgba(0, 0, 0, 0.4)',
+      },
+
+      '&.Mui-disabled': {
+        backgroundColor: '#999',
+        color: '#eee',
+      },
+    },
   },
 
   languages: {
@@ -55,6 +67,10 @@ const useStyles = makeStyles((theme) => ({
 
     '&> *': {
       margin: '4px',
+    },
+
+    '& button': {
+      backgroundColor: theme.palette.background.paper,
     },
   },
 

@@ -38,6 +38,8 @@ const getQuery = (): Partial<State> => {
 
 const queryInitial = getQuery()
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export const App: FC = () => {
   const [state, dispatch] = useReducer(reducer, {
     ...initial,
@@ -58,6 +60,7 @@ export const App: FC = () => {
             state.languages as any
           )) {
             dispatch({ type: 'receive', payload: el.result })
+            await sleep(800)
           }
 
           dispatch({ type: 'stop' })
